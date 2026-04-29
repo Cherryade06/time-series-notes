@@ -3,390 +3,622 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MTH6139 Time Series – Comprehensive Learning Objectives & Explanations</title>
-<!-- MathJax for rendering LaTeX formulas -->
+<title>MTH6139 Time Series – Full Self‑Contained Study Guide</title>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 <style>
   body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    line-height: 1.7;
-    max-width: 960px;
+    font-family: 'Georgia', 'Times New Roman', serif;
+    line-height: 1.8;
+    max-width: 1000px;
     margin: 40px auto;
-    padding: 0 20px;
-    color: #333;
+    padding: 0 30px;
+    color: #222;
   }
   h1 {
-    color: #2c3e50;
-    border-bottom: 2px solid #3498db;
-    padding-bottom: 0.3em;
-  }
-  h2 {
-    color: #2980b9;
-    border-bottom: 1px solid #bdc3c7;
-    padding-bottom: 0.2em;
-    margin-top: 2em;
-  }
-  h3 {
-    color: #1a5276;
+    color: #1a3b5d;
+    border-bottom: 2px solid #1a3b5d;
+    padding-bottom: .2em;
     margin-top: 1.5em;
   }
-  .explanation {
-    margin-left: 20px;
-    font-style: italic;
-    color: #555;
-    border-left: 3px solid #95a5a6;
-    padding-left: 15px;
+  h2 {
+    color: #2a6496;
+    border-bottom: 1px solid #a0c4e8;
+    padding-bottom: .1em;
+    margin-top: 1.5em;
   }
-  strong {
-    color: #2c3e50;
+  h3 {
+    color: #3a7ab0;
+    margin-top: 1.2em;
+  }
+  p { margin: 0.8em 0; }
+  .explain {
+    background: #f4f8fb;
+    border-left: 4px solid #2a6496;
+    padding: 0.6em 1em;
+    margin: 1em 0;
+    font-style: italic;
   }
   table {
     border-collapse: collapse;
-    margin: 1em 0;
-    width: auto;
+    margin: 1em auto;
   }
   th, td {
-    border: 1px solid #ccc;
-    padding: 8px 12px;
+    border: 1px solid #aaa;
+    padding: 6px 14px;
     text-align: center;
   }
-  th {
-    background-color: #f0f0f0;
+  th { background: #e6eef5; }
+  .alert {
+    background: #fff3cd;
+    border-left: 4px solid #ffc107;
+    padding: 0.6em 1em;
+    margin: 1em 0;
   }
   @media print {
     body { font-size: 12pt; margin: 0; padding: 0; }
-    .explanation { border-left-width: 1pt; }
+    .explain { border-left-width: 1pt; }
   }
 </style>
 </head>
 <body>
-<h1>MTH6139 Time Series – Full Learning Objectives &amp; Explanations</h1>
-<p>This document covers all must‑know formulas, concepts, and their intuitive explanations, organised chapter by chapter. To save as PDF, open this file in a browser and choose <strong>Print → Save as PDF</strong>.</p>
 
-<!-- ============================================================ -->
-<h2>Fundamental Concepts</h2>
+<h1>MTH6139 Time Series – Complete Self‑Contained Course Notes</h1>
+<p><em>Based on lectures by Sebastian del Baño Rollin, Queen Mary University of London, 2023/24.</em></p>
 
-<h3>Additive model</h3>
-<p>\[ X_t = m_t + s_t + Y_t \]</p>
-<div class="explanation">
-  <strong>What this means:</strong> A time series is like a recipe with three ingredients — a smooth long‑term movement (trend \(m_t\)), a repeating pattern (seasonality \(s_t\)), and random leftover noise (\(Y_t\)). We want to separate these three parts so we can study each one.
-</div>
+<!-- =============================================== -->
+<h1>Chapter 0 – Introduction to Time Series</h1>
 
-<h3>Multiplicative model and log transformation</h3>
-<p>\[ X_t = m_t\,s_t\,Y_t \;\Longrightarrow\; \log X_t = \log m_t + \log s_t + \log Y_t \]</p>
-<div class="explanation">
-  <strong>What this means:</strong> Sometimes the ups and downs grow <em>with</em> the level of the series (like stock returns). Taking logs turns multiplication into addition, which is easier to handle with the additive model.
-</div>
-
-<h3>Heteroscedasticity vs homoscedasticity</h3>
-<div class="explanation">
-  Heteroscedasticity means the variability of the series changes over time (e.g., gets bigger). Homoscedasticity means it stays constant. Many models assume constant variance, so we often need to fix this.
-</div>
-
-<!-- ============================================================ -->
-<h2>Chapter 1 – Estimating the Trend</h2>
-
-<h3>Least squares for linear trend</h3>
-<p>\[
-\hat\beta_1 = \frac{\sum (t_i-\bar t)(x_i-\bar x)}{\sum (t_i-\bar t)^2},\qquad
-\hat\beta_0 = \bar x - \hat\beta_1\bar t
-\]</p>
-<div class="explanation">
-  <strong>What this means:</strong> The slope \(\hat\beta_1\) is the “rise over run” — how much \(x\) changes per one unit of time on average. The intercept \(\hat\beta_0\) is the value of \(x\) at time 0. The line always passes through the “centre” of the data \((\bar t, \bar x)\).
-</div>
-
-<h3>Polynomial regression (matrix form)</h3>
-<p>\[
-\mathbf{X} = \mathbf{W}\boldsymbol\beta + \boldsymbol\varepsilon,\qquad
-\hat{\boldsymbol\beta} = (\mathbf{W}^T\mathbf{W})^{-1}\mathbf{W}^T\mathbf{X}
-\]</p>
-<div class="explanation">
-  <strong>What this means:</strong> Instead of a straight line, we fit a curve (quadratic, cubic, …). We stack all the data into matrices and solve for the best coefficients all at once — this is the same idea as linear regression but with extra columns for \(t^2, t^3,\dots\)
-</div>
-
-<!-- ============================================================ -->
-<h2>Chapter 2 – Moving Average Smoothing and Filters</h2>
-
-<h3>Odd moving average</h3>
-<p>\[
-\hat m_t = \frac{1}{2q+1}\sum_{j=-q}^{q} x_{t-j}
-\]</p>
-<div class="explanation">
-  <strong>What this means:</strong> Replace each data point with the average of itself and its \(q\) left and \(q\) right neighbours. This smooths out random bumps and reveals the underlying trend.
-</div>
-
-<h3>Even moving average (half‑weighted ends)</h3>
-<p>\[
-\hat m_t = \frac{1}{2q}\Bigl(\tfrac12 x_{t-q} + x_{t-q+1} + \dots + x_{t+q-1} + \tfrac12 x_{t+q}\Bigr)
-\]</p>
-<div class="explanation">
-  <strong>What this means:</strong> When we need an even number of points, we give the two farthest ones only half weight so the average is still centred symmetrically.
-</div>
-
-<h3>Linear filter (convolution)</h3>
-<p>\[
-w_t = \sum_{j=-q}^{q} a_j x_{t-j}
-\]</p>
-<div class="explanation">
-  <strong>What this means:</strong> A weighted moving average where different neighbours can have different importance. Choosing the weights cleverly lets us keep certain patterns (e.g. linear trend) undistorted while removing noise.
-</div>
-
-<h3>Filter design conditions</h3>
+<h2>0.1 What is Time Series Analysis?</h2>
+<p>A time series is a sequence of data points collected at successive points in time, usually equally spaced. Examples: daily stock prices, monthly rainfall, yearly GDP.</p>
+<p><strong>Time Series Analysis (TSA)</strong> aims to:</p>
 <ul>
-  <li>Linear trend passes through undistorted if: \(\sum a_j = 1\) and \(\sum j a_j = 0\).</li>
-  <li>Quadratic: add \(\sum j^2 a_j = 0\).</li>
-  <li>Cubic: add \(\sum j^3 a_j = 0\).</li>
+  <li><strong>Understand</strong> the underlying structure (trend, seasonality, cycles).</li>
+  <li><strong>Explain</strong> the observed variation using mathematical models.</li>
+  <li><strong>Predict</strong> future values (forecasting).</li>
+  <li><strong>Control</strong> a process by adjusting inputs based on the model (e.g., in engineering).</li>
 </ul>
-<div class="explanation">
-  <strong>What this means:</strong> These conditions guarantee that if the true trend is a straight line (or a parabola, etc.), smoothing won’t bend or shift it.
+
+<h2>0.2 What is a Time Series?</h2>
+<p>We observe a variable \(X\) at times \(t_1, t_2, \ldots\) and record numerical values \(x_1, x_2, \ldots\) 
+In this course we assume:
+<strong>equispaced discrete time</strong>, i.e. \(t_2-t_1 = t_3-t_2 = \dots\), and often set \(t=1,2,3,\dots\) for simplicity. The data are continuous numbers (\(x_t\in\mathbb{R}\)) and contain random fluctuations.</p>
+
+<h2>0.3 How do we analyse Time Series?</h2>
+<p>We combine probability theory (modelling the randomness) and statistics (estimating model parameters from data).</p>
+
+<div class="explain">
+  <strong>Probability vs. Statistics:</strong>
+  <ul>
+    <li><strong>Probability:</strong> We reason about random variables (usually upper case \(X, Y,\dots\)) and their distributions.</li>
+    <li><strong>Statistics:</strong> We work with actual data (lower case \(x,y,\dots\)) to infer properties of the underlying random variables.</li>
+  </ul>
 </div>
 
-<!-- ============================================================ -->
-<h2>Chapter 3 – Exponential Smoothing and Differencing</h2>
+<h2>0.4 Technology</h2>
+<p>The module uses <strong>R</strong> for computations. Key libraries mentioned: <code>astsa</code>, <code>forecast</code>, <code>tseries</code>, <code>signal</code>.</p>
 
-<h3>Exponential smoothing</h3>
-<p>\[
-\hat m_t = \alpha x_t + (1-\alpha)\hat m_{t-1}
-\]</p>
-<div class="explanation">
-  <strong>What this means:</strong> Today’s trend estimate is a blend of today’s actual value and yesterday’s trend estimate. The weight \(\alpha\) (between 0 and 1) controls how quickly we react to new data. Higher \(\alpha\) = more responsive to recent changes. This is a “one‑sided” method — it only uses past data, so it can be used for forecasting.
-</div>
+<h2>0.5 Data sources</h2>
+<p>Datasets are available in R packages (<code>astsa::jj</code>, <code>astsa::birth</code>, <code>Rssa::AustralianWine</code>), on Kaggle, or via Yahoo Finance.</p>
 
-<h3>Span</h3>
-<p>\[
-N = \frac{1-\alpha}{\alpha}
-\]</p>
-<div class="explanation">
-  <strong>What this means:</strong> If \(\alpha=0.1\), \(N=9\) — the average “age” of the data influencing the estimate is about 9 time points.
-</div>
+<!-- =============================================== -->
+<h1>Chapter 1 – The Additive Model and Estimating the Trend</h1>
 
-<h3>Holt method (trend‑corrected exponential smoothing)</h3>
+<h2>1.1 General Features of a Time Series</h2>
 <ul>
-  <li>Level: \(m_t = \alpha x_t + (1-\alpha)(m_{t-1}+b_{t-1})\)</li>
-  <li>Trend: \(b_t = \beta (m_t - m_{t-1}) + (1-\beta) b_{t-1}\)</li>
-  <li>Forecast: \(\hat x_{t+h} = m_t + h\,b_t\)</li>
+  <li><strong>Trend (\(m_t\))</strong> – a long‑term, smooth, non‑random movement (e.g., linear growth).</li>
+  <li><strong>Seasonality (\(s_t\))</strong> – regular periodic patterns with a known fixed period (e.g., monthly sales peaks in December).</li>
+  <li><strong>Cyclic patterns</strong> – wavelike fluctuations with less predictable period (e.g., business cycles). Not covered in this course.</li>
+  <li><strong>Residual noise (\(Y_t\))</strong> – the erratic, unpredictable part left after removing trend and seasonality.</li>
+  <li><strong>Heteroscedasticity</strong> – variance of the series changes over time (opposite: homoscedasticity).</li>
 </ul>
-<div class="explanation">
-  <strong>What this means:</strong> When the series has a steady upward or downward slope, plain exponential smoothing always lags behind. The Holt method adds a separate trend line that learns how fast the series is changing, and the forecast extends that trend forward.
+
+<h2>1.2 The Additive Model</h2>
+<p>We decompose the observed time series \(X_t\) (or \(x_t\)) as:</p>
+\[
+X_t = m_t + s_t + Y_t, \qquad t=1,\ldots,n.
+\]
+The trend \(m_t\) and seasonal part \(s_t\) are deterministic; the noise \(Y_t\) is random with \(\mathbb{E}[Y_t]=0\).
+
+<div class="explain">
+  <strong>Why centre the components?</strong> If the seasonal averages are not zero, we can redefine \(m_t^{\text{new}} = m_t + \text{avg}(s_t)\) and \(s_t^{\text{new}} = s_t - \text{avg}(s_t)\) so that \(\sum_{t=1}^{S} s_t^{\text{new}}/S = 0\).
 </div>
 
-<h3>Trend differencing</h3>
-<p>\[
-\nabla x_t = x_t - x_{t-1}
-\]</p>
-<div class="explanation">
-  <strong>What this means:</strong> Instead of modelling and subtracting the trend, we simply look at the <em>changes</em> from one time point to the next. If the trend was linear, these changes are now roughly constant (no trend left). Repeating differencing \(d\) times removes a polynomial trend of degree \(d\).
+<h2>1.3 Multiplicative Model</h2>
+<p>For series where variability is proportional to the level (e.g., financial returns), we use:</p>
+\[
+X_t = m_t \, s_t \, Y_t.
+\]
+Taking logarithms converts it to an additive model:
+\[
+\log X_t = \log m_t + \log s_t + \log Y_t.
+\]
+
+<h2>1.4 Trend Estimation – Parametric Methods</h2>
+
+<h3>1.4.1 Linear Regression</h3>
+<p>Assume the trend is a straight line: \(m_t = \beta_0 + \beta_1 t\). We find the parameters that minimise the sum of squared residuals:</p>
+\[
+S(\beta_0,\beta_1) = \sum_{i=1}^n \bigl(x_i - (\beta_0 + \beta_1 t_i)\bigr)^2.
+\]
+
+<p>Setting partial derivatives to zero gives the <strong>normal equations</strong>:</p>
+\[
+\begin{aligned}
+\sum x_i &= n\beta_0 + \beta_1 \sum t_i,\\
+\sum t_i x_i &= \beta_0 \sum t_i + \beta_1 \sum t_i^2.
+\end{aligned}
+\]
+
+<p>Solving yields the well‑known formulas:</p>
+\[
+\hat\beta_1 = \frac{\sum_{i=1}^n (t_i - \bar t)(x_i - \bar x)}{\sum_{i=1}^n (t_i - \bar t)^2},\qquad
+\hat\beta_0 = \bar x - \hat\beta_1\bar t.
+\]
+
+<div class="explain">
+  <strong>Intuition:</strong> \(\hat\beta_1\) is the slope (change in \(x\) per unit time). \(\hat\beta_0\) is the value of the trend at time 0. The fitted line always passes through the point of means \((\bar t,\bar x)\).
 </div>
 
-<!-- ============================================================ -->
-<h2>Chapter 4 – Seasonality</h2>
+<h3>1.4.2 Polynomial Regression</h3>
+<p>If the trend looks curved, we use a polynomial: \(m_t = \beta_0 + \beta_1 t + \beta_2 t^2 + \dots + \beta_k t^k\).</p>
 
-<h3>Seasonal period</h3>
-<p>\(s_{t+S} = s_t\), e.g. \(S=12\) for monthly data with yearly pattern.</p>
-<div class="explanation">
-  <strong>What this means:</strong> The seasonal component repeats exactly every \(S\) time points (every January looks the same, every February looks the same, etc.).
+<p>We write the model in matrix form. Let \(\mathbf{X} = (x_1,\ldots,x_n)^T\), \(\boldsymbol\beta = (\beta_0,\beta_1,\dots,\beta_k)^T\), and define the <strong>design matrix</strong> \(\mathbf{W}\) (size \(n\times (k+1)\)):</p>
+\[
+\mathbf{W} = \begin{pmatrix}
+1 & t_1 & t_1^2 & \cdots & t_1^k\\
+1 & t_2 & t_2^2 & \cdots & t_2^k\\
+\vdots & \vdots & \vdots & \ddots & \vdots\\
+1 & t_n & t_n^2 & \cdots & t_n^k
+\end{pmatrix}.
+\]
+
+<p>The sum of squares becomes \(S(\boldsymbol\beta) = \|\mathbf{X} - \mathbf{W}\boldsymbol\beta\|^2 = (\mathbf{X} - \mathbf{W}\boldsymbol\beta)^T(\mathbf{X} - \mathbf{W}\boldsymbol\beta)\).</p>
+
+<p>Using matrix calculus (\(\frac{\partial}{\partial\boldsymbol\beta} \|\mathbf{X} - \mathbf{W}\boldsymbol\beta\|^2 = -2\mathbf{W}^T(\mathbf{X} - \mathbf{W}\boldsymbol\beta)\)), we set the gradient to zero and obtain the <strong>normal equations</strong>:</p>
+\[
+\mathbf{W}^T\mathbf{W}\boldsymbol\beta = \mathbf{W}^T\mathbf{X}.
+\]
+
+<p>Provided \(\mathbf{W}^T\mathbf{W}\) is invertible (which requires at least \(k+1\) distinct time points), the solution is:</p>
+\[
+\hat{\boldsymbol\beta} = (\mathbf{W}^T\mathbf{W})^{-1}\mathbf{W}^T\mathbf{X}.
+\]
+
+<div class="explain">
+  <strong>Intuition:</strong> This is a direct generalisation of fitting a straight line; instead of two parameters we estimate \(k+1\) parameters simultaneously. The matrix formula is exactly the same algebraic structure.
 </div>
 
-<h3>Brockwell &amp; Davies algorithm outline</h3>
+<h3>1.4.3 Other Parametric Trends</h3>
+<p><strong>Exponential trend:</strong> \(m_t = \beta_0 e^{\beta_1 t}\) – appropriate for percentage growth.<br/>
+<strong>Richards’ growth curve (generalised logistic):</strong> Used in modelling population or epidemic growth. These require numerical optimisation to fit.</p>
+
+<!-- =============================================== -->
+<h1>Chapter 2 – Non‑parametric Trend Methods I: Moving Averages and Filters</h1>
+
+<h2>2.1 Moving Average Smoothing</h2>
+
+<h3>2.1.1 Simple Moving Average (Odd Window)</h3>
+<p>For a chosen integer \(q\), the \(2q+1\)-point moving average is:</p>
+\[
+\hat m_t = \frac{1}{2q+1}\bigl(x_{t-q} + x_{t-q+1} + \dots + x_{t+q}\bigr).
+\]
+
+<p>This smooths the series by averaging over \(2q+1\) consecutive observations, centred at \(t\). The first and last \(q\) points are undefined (missing).</p>
+
+<h3>2.1.2 Even Moving Average</h3>
+<p>When an even number \(2q\) of points is needed (e.g., to remove seasonality of period 12), we weight the ends by 1/2:</p>
+\[
+\hat m_t = \frac{1}{2q}\Bigl(\tfrac12 x_{t-q} + x_{t-q+1} + \dots + x_{t+q-1} + \tfrac12 x_{t+q}\Bigr).
+\]
+
+<h2>2.2 Linear Filters and Convolution</h2>
+<p>A linear filter is a transformation \(w_t = \sum_{j=-q}^{q} a_j x_{t-j}\) where the vector \(\mathbf{a} = (a_{-q},\ldots,a_q)\) is called the <strong>filter coefficients</strong>. This is the convolution of \(\mathbf{a}\) with the series \(\mathbf{x}\).</p>
+
+<p><strong>Low‑pass filter:</strong> Suppresses rapid fluctuations (high frequencies) and retains slow changes (the trend). Moving averages are low‑pass filters.</p>
+<p><strong>High‑pass filter:</strong> Removes slow changes and leaves the fast noise. Example: \(y_t = x_t - \hat m_t\).</p>
+
+<h2>2.3 Filter Design</h2>
+<p>A filter <em>passes a trend without distortion</em> if \(m_t = \sum_j a_j m_{t-j}\) for that trend.</p>
+<p>For a polynomial trend of degree \(d\), the necessary and sufficient conditions are:</p>
+<ul>
+  <li>\(\sum_j a_j = 1\) (preserves constant)</li>
+  <li>\(\sum_j j a_j = 0\) (preserves linear)</li>
+  <li>\(\sum_j j^2 a_j = 0\) (preserves quadratic), etc. up to \(\sum_j j^d a_j = 0\).</li>
+</ul>
+
+<div class="explain">
+  <strong>Example:</strong> The simple \(2q+1\) moving average has \(a_j = 1/(2q+1)\) and satisfies the first two conditions, so it passes linear trends undisturbed.
+</div>
+
+<h2>2.4 Well‑Known Low‑Pass Filters</h2>
+<ul>
+  <li><strong>Spencer’s 15‑point filter:</strong> Coefficients satisfy conditions up to cubic, so it preserves quadratic and cubic trends. Used by actuaries for mortality data.</li>
+  <li><strong>Henderson’s filter:</strong> Also widely used in official statistics; designed to be optimal for trend estimation.</li>
+</ul>
+
+<!-- =============================================== -->
+<h1>Chapter 3 – Non‑parametric Trend Methods II: Exponential Smoothing and Differencing</h1>
+
+<h2>3.1 Exponential Smoothing</h2>
+
+<h3>3.1.1 Definition</h3>
+<p>Choose a smoothing parameter \(\alpha \in (0,1)\). The exponentially smoothed trend is defined as a weighted average of all past observations with geometrically decaying weights:</p>
+\[
+m_t = \alpha x_t + \alpha(1-\alpha) x_{t-1} + \alpha(1-\alpha)^2 x_{t-2} + \dots
+\]
+
+<p>For a finite series starting at \(x_0\), the last term is \((1-\alpha)^t \hat m_0\), often set \(\hat m_0 = x_0\).</p>
+
+<div class="explain">
+  <strong>Why “exponential”?</strong> The weights decrease by a constant factor \(1-\alpha\) each step back in time, mimicking an exponential decay.
+</div>
+
+<h3>3.1.2 Recurrence Form</h3>
+\[
+m_t = \alpha x_t + (1-\alpha) m_{t-1},
+\]
+with initial condition \(m_0 = x_0\). This makes computation O(1) per new data point.
+
+<h3>3.1.3 Forecasting</h3>
+<p>Since exponential smoothing only uses past data, it can be used for one‑step‑ahead forecasts: \(\hat x_{t+1} = m_t\). The optimal \(\alpha\) is chosen by minimising the sum of squared forecast errors over the historical data.</p>
+
+<h3>3.1.4 Span</h3>
+<p>The average age of the data in the estimate is \(N = (1-\alpha)/\alpha\). For a desired span \(N\), we set \(\alpha = 1/(N+1)\). In finance, this gives the \(N\)-day exponential moving average.</p>
+
+<h2>3.2 Holt Method (Exponential Smoothing with Trend)</h2>
+<p>When the series has a persistent upward/downward drift, we add a <strong>trend component</strong> \(b_t\):</p>
+\[
+\begin{aligned}
+m_t &= \alpha x_t + (1-\alpha)(m_{t-1} + b_{t-1}),\\[2pt]
+b_t &= \beta (m_t - m_{t-1}) + (1-\beta) b_{t-1}.
+\end{aligned}
+\]
+<p>Here \(m_t\) is the <strong>level</strong>, \(b_t\) is the <strong>slope</strong> (trend). Forecasting \(h\) steps ahead: \(\hat x_{t+h} = m_t + h\,b_t\).</p>
+
+<div class="explain">
+  <strong>Intuition:</strong> The level equation now adds the previous trend to the previous level before blending with the new observation. The trend equation updates the slope based on the latest change in level, smoothed by \(\beta\).
+</div>
+
+<h2>3.3 Trend Differencing</h2>
+
+<h3>3.3.1 The Differencing Operator</h3>
+\[
+\nabla x_t = x_t - x_{t-1} = (I - B)x_t,
+\]
+where \(B\) is the backshift operator: \(B x_t = x_{t-1}\).
+
+<h3>3.3.2 Higher Order Differencing</h3>
+\[
+\nabla^d = (I - B)^d.
+\]
+For example, \(\nabla^2 x_t = x_t - 2x_{t-1} + x_{t-2}\).
+
+<p><strong>Key property:</strong> If the trend is a polynomial of degree \(d\), \(m_t = \beta_0 + \beta_1 t + \dots + \beta_d t^d\), then applying \(\nabla^d\) eliminates the trend completely, leaving only \(\nabla^d Y_t\) (plus a constant \(d!\,\beta_d\)).</p>
+
+<div class="explain">
+  <strong>Example:</strong> Linear trend \(m_t = \beta_0+\beta_1 t\) → \(\nabla m_t = \beta_1\) (constant, no trend). Quadratic trend → \(\nabla^2 m_t = 2\beta_2\) (constant).
+</div>
+
+<!-- =============================================== -->
+<h1>Chapter 4 – Seasonality</h1>
+
+<h2>4.1 Seasonal Patterns</h2>
+<p>A seasonal component repeats every \(S\) time units: \(s_{t+S} = s_t\). For monthly data with yearly seasonality, \(S=12\).</p>
+<p>We always assume the seasonal component averages to zero over one cycle: \(\frac{1}{S}\sum_{t=1}^{S} s_t = 0\).</p>
+
+<h2>4.2 Brockwell &amp; Davies Decomposition Algorithm</h2>
+<p>This is a step‑by‑step method to separate a series \(x_t\) into \(m_t + s_t + y_t\). It assumes the number of observations \(n\) is a multiple of \(S\).</p>
+
 <ol>
-  <li>Estimate trend with an \(S\)-point moving average (so seasonal bumps are averaged out).</li>
-  <li>Subtract trend → get “de‑trended” series.</li>
-  <li>Average the de‑trended values for each season (e.g. all Januaries) → raw seasonal indices.</li>
-  <li>Centre the indices so their mean is zero.</li>
-  <li>Subtract seasonality → “deseasonalised” series; what’s left is noise.</li>
+  <li><strong>Estimate trend by an \(S\)-point moving average.</strong>  
+      If \(S\) is even (e.g. 12), use the even moving average with half‑weighted ends so that seasonal fluctuations are averaged out.
+  </li>
+  <li><strong>Detrended series:</strong> \(x_t - \hat m_t\).  
+      For each season (e.g. each January), compute the average of these detrended values. Call these raw seasonal indices \(w_1,\dots,w_S\).
+  </li>
+  <li><strong>Centre the indices:</strong> \(\hat s_k = w_k - \frac{1}{S}\sum_{i=1}^{S} w_i\), so they sum to zero.
+  </li>
+  <li><strong>Deseasonalised series:</strong> \(d_t = x_t - \hat s_t\).
+  </li>
+  <li><strong>Re‑estimate trend</strong> from the deseasonalised data (optional), and then compute residuals \(\hat y_t = x_t - \hat m_t - \hat s_t\).
 </ol>
-<div class="explanation">
-  <strong>What this means:</strong> A systematic, step‑by‑step recipe to dismantle a time series into its three building blocks. R’s <code>decompose()</code> does exactly this.
+
+<div class="explain">
+  <strong>Intuition:</strong> The algorithm first uses a moving average of length exactly equal to the seasonal period to obtain a smooth trend free of seasonal wiggles. Then it averages the leftover seasonal bumps across years to get a stable seasonal profile.
 </div>
 
-<h3>Holt‑Winters (with seasonality)</h3>
-<ul>
-  <li>Level: \(m_t = \alpha (x_t - s_{t-S}) + (1-\alpha)(m_{t-1}+b_{t-1})\)</li>
-  <li>Trend: \(b_t = \beta (m_t - m_{t-1}) + (1-\beta) b_{t-1}\)</li>
-  <li>Seasonal: \(s_t = \gamma (x_t - m_{t-1} - b_{t-1}) + (1-\gamma) s_{t-S}\)</li>
-  <li>Forecast: \(\hat x_{t+h} = m_t + h b_t + s_{t - S + 1 + (h-1)\bmod S}\)</li>
-</ul>
-<div class="explanation">
-  <strong>What this means:</strong> Holt‑Winters extends the Holt method by adding a seasonal component that also learns and updates its estimate of the yearly pattern. The three weights \(\alpha,\beta,\gamma\) control how quickly the level, trend, and seasonality adapt.
-</div>
+<h2>4.3 Holt‑Winters Method with Seasonality</h2>
+<p>This extends the Holt method by adding a seasonal component \(s_t\) that is updated via exponential smoothing:</p>
+\[
+\begin{aligned}
+m_t &= \alpha (x_t - s_{t-S}) + (1-\alpha)(m_{t-1} + b_{t-1}),\\
+b_t &= \beta (m_t - m_{t-1}) + (1-\beta) b_{t-1},\\
+s_t &= \gamma (x_t - m_{t-1} - b_{t-1}) + (1-\gamma) s_{t-S}.
+\end{aligned}
+\]
+<p>Forecast: \(\hat x_{t+h} = m_t + h\,b_t + s_{t - S + 1 + (h-1)\bmod S}\).</p>
 
-<h3>Seasonal differencing</h3>
-<p>\[
-\nabla_S x_t = x_t - x_{t-S}
-\]</p>
-<div class="explanation">
-  <strong>What this means:</strong> Instead of modelling seasonality, we just look at the difference between this month’s value and the same month one year ago. This kills the seasonal pattern immediately. It commutes with ordinary differencing, so we can do both in any order.
-</div>
+<h2>4.4 Seasonal Differencing</h2>
+\[
+\nabla_S x_t = x_t - x_{t-S} = (I - B^S) x_t.
+\]
+<p>Applying \(\nabla_S\) to a seasonal component of period \(S\) gives zero, thus removing seasonality. \(\nabla\) and \(\nabla_S\) commute, so the order of detrending and deseasonalising does not matter. Combined \(\nabla\nabla_S\) removes both a linear trend and a seasonal pattern.</p>
 
-<h3>Harmonic decomposition</h3>
-<p>\[
-s_t = a_0 + \sum_{j=1}^k \Bigl( a_j\cos\frac{2\pi j t}{S} + b_j\sin\frac{2\pi j t}{S} \Bigr)
-\]</p>
-<div class="explanation">
-  <strong>What this means:</strong> We can write any seasonal pattern as a sum of sine and cosine waves of different frequencies. This is useful when there are multiple overlapping cycles (e.g., weekly + yearly patterns in electricity demand).
-</div>
+<h2>4.5 Harmonic Decomposition</h2>
+<p>Seasonal cycles can be expressed as a sum of sines and cosines of frequencies \(j/S\):</p>
+\[
+s_t = a_0 + \sum_{j=1}^k \bigl( a_j \cos(2\pi j t/S) + b_j \sin(2\pi j t/S) \bigr).
+\]
+<p>The coefficients are estimated by least squares. This is useful when several different cycles (e.g., weekly and yearly) are present.</p>
 
-<!-- ============================================================ -->
-<h2>Chapter 5 – Residual Analysis and Probability Revision</h2>
+<!-- =============================================== -->
+<h1>Chapter 5 – Analysis of the Residual Error</h1>
 
-<h3>Box‑Cox transformation</h3>
-<p>\[
+<h2>5.1 Heteroskedasticity and Box‑Cox Transformations</h2>
+
+<p><strong>Heteroskedasticity:</strong> \(\operatorname{Var}(X_t)\) changes with time. Stationary models require constant variance.</p>
+
+<p>The <strong>Box‑Cox transformation</strong> is a family of power transforms indexed by \(\lambda\):</p>
+\[
 x_t^{(\lambda)} = \begin{cases}
-\dfrac{x_t^\lambda -1}{\lambda}, & \lambda \neq 0,\\[4pt]
+\dfrac{x_t^\lambda - 1}{\lambda}, & \lambda \neq 0,\\[6pt]
 \log x_t, & \lambda = 0.
 \end{cases}
-\]</p>
-<div class="explanation">
-  <strong>What this means:</strong> A family of mathematical transformations that can make a series more homoscedastic. We let the data choose the best \(\lambda\) (often near 0, i.e. a log). A log transform is the most common fix when variance grows with the level.
+\]
+<p>The optimal \(\lambda\) is chosen by maximum likelihood (R: <code>BoxCox.lambda</code>). A log‑transform (\(\lambda=0\)) is the most common cure.</p>
+
+<h2>5.2 Revision of Probability Concepts</h2>
+
+<h3>5.2.1 One‑Dimensional Random Variables</h3>
+<p>For a discrete r.v. \(X\) with probability mass function \(p_i = P(X=x_i)\), the expected value is \(\mathbb{E}[X] = \sum x_i p_i\) and variance is \(\operatorname{Var}(X) = \mathbb{E}[(X-\mathbb{E}X)^2] = \sum x_i^2 p_i - (\mathbb{E}X)^2\).</p>
+<p>For a continuous r.v. with density \(f_X(x)\), \(\mathbb{E}[g(X)] = \int g(x)f_X(x)\,dx\).</p>
+
+<h3>5.2.2 Two‑Dimensional and Higher Dimensions</h3>
+<p><strong>Joint distribution:</strong> \(f_{(X,Y)}(x,y)\). Marginal densities: \(f_X(x) = \int f_{(X,Y)}(x,y)\,dy\).</p>
+<p><strong>Covariance:</strong> \(\operatorname{Cov}(X,Y) = \mathbb{E}[(X-\mathbb{E}X)(Y-\mathbb{E}Y)] = \mathbb{E}[XY] - \mathbb{E}X\,\mathbb{E}Y\).</p>
+<p><strong>Correlation:</strong> \(\rho_{XY} = \frac{\operatorname{Cov}(X,Y)}{\sqrt{\operatorname{Var}(X)\operatorname{Var}(Y)}} \in [-1,1]\).</p>
+
+<div class="explain">
+  <strong>Properties:</strong> Covariance is bilinear and symmetric. Uncorrelated does NOT imply independent (except for jointly normal vectors). For a bivariate normal, zero correlation means independence.
 </div>
 
-<h3>Covariance and correlation</h3>
-<p>\[
-\operatorname{Cov}(X,Y)=\mathbb{E}[(X-\mathbb{E}X)(Y-\mathbb{E}Y)],\qquad
-\rho_{XY}= \frac{\operatorname{Cov}(X,Y)}{\sqrt{\operatorname{Var}(X)\operatorname{Var}(Y)}}
-\]</p>
-<div class="explanation">
-  <strong>What this means:</strong> Covariance measures whether two variables move together (positive = together, negative = opposite). Correlation is a standardised version between \(-1\) and \(1\) that ignores the units.
+<h3>5.2.3 Partial Correlation</h3>
+<p>The partial correlation \(\rho_{XY\cdot Z}\) is the correlation between \(X\) and \(Y\) after removing the linear effect of \(Z\). Formally, we find \(a,b\) such that \(\operatorname{Cov}(X - aZ, Z)=0\) and \(\operatorname{Cov}(Y - bZ, Z)=0\); then \(\rho_{XY\cdot Z} = \rho_{X',Y'}\) where \(X' = X-aZ,\; Y' = Y-bZ\).</p>
+
+<div class="explain">
+  <strong>Intuition:</strong> If height and reading ability are both correlated with age, partial correlation removes the age effect, revealing whether height still predicts reading ability directly.
 </div>
 
-<h3>Partial correlation \(\rho_{XY\cdot Z}\)</h3>
-<div class="explanation">
-  <strong>What this means:</strong> The correlation left between \(X\) and \(Y\) after removing the influence of a third variable \(Z\). For example, height and reading ability may be correlated only because they both depend on age; partial correlation with age held constant would likely be near zero.
-</div>
+<h2>5.3 Random Processes and Weak Stationarity</h2>
 
-<h3>Weak stationarity</h3>
+<p>A <strong>random process</strong> is a sequence of random variables \(\{X_t\}\). Its mean function is \(\mu(t) = \mathbb{E}[X_t]\) and its autocovariance function is:</p>
+\[
+\gamma(r,s) = \operatorname{Cov}(X_r, X_s) = \mathbb{E}\bigl[(X_r-\mu(r))(X_s-\mu(s))\bigr].
+\]
+
+<p>A process is <strong>weakly stationary</strong> if:</p>
 <ol>
-  <li>\(\mathbb{E}[X_t] = \mu\) constant for all \(t\)</li>
-  <li>\(\operatorname{Cov}(X_{t+h}, X_t) = \gamma(h)\) depends only on lag \(h\), not on \(t\)</li>
+  <li>\(\mu(t) = \mu\) (constant) for all \(t\).</li>
+  <li>\(\gamma(t+h, t) = \gamma(h)\) depends only on the lag \(h\), not on \(t\).</li>
 </ol>
-<div class="explanation">
-  <strong>What this means:</strong> The series has no trend (mean doesn’t wander), and the way values relate to each other doesn’t change over time. This is what we expect the residual \(Y_t\) to look like after we remove trend and seasonality.
+
+<!-- =============================================== -->
+<h1>Chapter 6 – Properties of Stationary Processes</h1>
+
+<h2>6.1 Strict vs. Weak Stationarity</h2>
+<p>A process is <strong>strictly stationary</strong> if the whole joint distribution of \((X_{t_1},\dots,X_{t_n})\) is the same as that of \((X_{t_1+s},\dots,X_{t_n+s})\) for any shift \(s\).</p>
+<p>If a strictly stationary process has finite first and second moments, then it is also weakly stationary (but the converse may not hold).</p>
+
+<h2>6.2 White Noise</h2>
+<p><strong>White noise</strong> is a sequence of independent random variables, each with mean 0 and constant variance \(\sigma^2\), usually normal: \(Z_t \sim N(0,\sigma^2)\).</p>
+<p>Its ACF: \(\rho(0)=1\), \(\rho(h)=0\) for \(|h|>0\). It is the simplest stationary process and the building block for more complex models.</p>
+
+<h2>6.3 Random Walk</h2>
+\[
+X_t = X_{t-1} + Z_t, \quad X_0 = Z_0.
+\]
+<p>Then \(\operatorname{Var}(X_t) = t\sigma^2\), so the variance depends on \(t\) → <strong>not stationary</strong>.</p>
+
+<h2>6.4 Autocovariance and Autocorrelation Functions (ACVF &amp; ACF)</h2>
+<p>For a weakly stationary process, we define:</p>
+\[
+\gamma(h) = \operatorname{Cov}(X_t, X_{t+h}),\qquad
+\rho(h) = \frac{\gamma(h)}{\gamma(0)}.
+\]
+<p>Properties: \(\gamma(0) \ge 0\), \(\rho(0)=1\), \(\gamma(-h)=\gamma(h)\), \(|\rho(h)| \le 1\).</p>
+
+<h2>6.5 Sample ACF</h2>
+<p>Given observations \(x_1,\dots,x_n\), the sample mean is \(\bar x = \frac{1}{n}\sum_{t=1}^n x_t\).</p>
+<p>The sample autocovariance:</p>
+\[
+\hat\gamma(h) = \frac{1}{n}\sum_{t=1}^{n-h} (x_{t+h} - \bar x)(x_t - \bar x), \quad 0\le h < n.
+\]
+<p>The sample ACF is \(\hat\rho(h) = \hat\gamma(h) / \hat\gamma(0)\).</p>
+<p>For white noise, \(\hat\rho(h)\) is approximately normally distributed with mean 0 and variance \(1/n\). The 95% confidence interval is \(\pm 1.96/\sqrt{n}\) (the blue dashed lines in R’s <code>acf</code> plot).</p>
+
+<h2>6.6 MA(1) Process</h2>
+<p>Definition: \(X_t = Z_t + \theta Z_{t-1}\).</p>
+<p>Mean: \(\mathbb{E}[X_t]=0\). Covariances:</p>
+\[
+\gamma(0) = \sigma^2(1+\theta^2),\quad
+\gamma(1) = \gamma(-1) = \theta\sigma^2,\quad
+\gamma(h)=0 \text{ for } |h|>1.
+\]
+<p>Hence ACF: \(\rho(1) = \frac{\theta}{1+\theta^2},\; \rho(h)=0\) for \(|h|>1\).</p>
+
+<div class="explain">
+  <strong>Memory:</strong> The effect of a shock lasts exactly one time step. The ACF cuts off after lag 1.
 </div>
 
-<!-- ============================================================ -->
-<h2>Chapter 6 – Stationary Processes</h2>
-
-<h3>White noise \(Z_t \sim \text{i.i.d. } N(0,\sigma^2)\)</h3>
-<p>ACF: \(\rho(0)=1,\ \rho(h)=0\) for \(h\neq0\)</p>
-<div class="explanation">
-  <strong>What this means:</strong> The simplest stationary process — each observation is a fresh random draw, completely unrelated to the past. The ACF is a single spike at lag 0. If our residuals look like white noise, we know we’ve extracted all the predictable structure.
-</div>
-
-<h3>Sample ACF confidence bounds</h3>
-<p>Approximately \(\pm 1.96/\sqrt{n}\) for white noise.</p>
-<div class="explanation">
-  <strong>What this means:</strong> Even for pure white noise, sample autocorrelations won’t be exactly zero — they vary randomly. The blue dashed lines on an ACF plot show the range where 95% of these random estimates should fall. Bars sticking out suggest real autocorrelation.
-</div>
-
-<h3>MA(1) process \(X_t = Z_t + \theta Z_{t-1}\)</h3>
-<p>\(\gamma(0)=\sigma^2(1+\theta^2),\ \gamma(\pm1)=\theta\sigma^2,\ \text{zero thereafter}\)</p>
-<div class="explanation">
-  <strong>What this means:</strong> Today’s value is today’s shock plus a fraction of yesterday’s shock. The ACF has exactly one non‑zero spike at lag 1 (besides lag 0). This is a “short memory” process — the effect of a shock lasts exactly one time step.
-</div>
-
-<h3>MA(q) general formula</h3>
-<p>\[
-\gamma(h) = \sigma^2\sum_{i=0}^{q-|h|} \theta_i \theta_{i+|h|}\quad (\theta_0=1)
-\]</p>
-<div class="explanation">
-  <strong>What this means:</strong> The ACF of an MA(q) is exactly zero for lags bigger than \(q\). This gives us a clear diagnostic: if the sample ACF cuts off abruptly after lag \(q\), an MA(q) is a good candidate model.
-</div>
-
-<!-- ============================================================ -->
-<h2>Chapter 7 &amp; 8 – AR(1), AR(p), Causality, and Invertibility</h2>
-
-<h3>AR(1) causal (\(|\phi|&lt;1\)) ACF</h3>
-<p>\[
-\gamma(h)=\frac{\phi^{|h|}\sigma^2}{1-\phi^2},\qquad
-\rho(h) = \phi^{|h|}
-\]</p>
-<div class="explanation">
-  <strong>What this means:</strong> Today’s value depends on yesterday’s value plus a new shock. The ACF decays geometrically (like a dying echo). The process is “causal” because it is built only from past shocks.
-</div>
-
-<h3>Causality condition</h3>
+<h2>6.7 Stationarity Tests</h2>
 <ul>
-  <li>AR(1): \(|\phi|&lt;1\)</li>
-  <li>AR(p): all roots of \(\phi(z)=1-\phi_1 z-\dots-\phi_p z^p\) lie <strong>outside</strong> the unit circle.</li>
+  <li><strong>ADF (Augmented Dickey‑Fuller):</strong> \(H_0\) = non‑stationary. Small p‑value → reject \(H_0\) → series is stationary.</li>
+  <li><strong>KPSS:</strong> \(H_0\) = stationary.</li>
+  <li><strong>Ljung‑Box:</strong> \(H_0\) = white noise (no autocorrelation).</li>
 </ul>
-<div class="explanation">
-  <strong>What this means:</strong> For an AR process to make sense (and not depend on the future), its characteristic polynomial must have roots larger than 1 in absolute value. This guarantees the process can be written as an infinite sum of past white noise terms.
+
+<!-- =============================================== -->
+<h1>Chapter 7 – Moving Average and Autoregressive Models</h1>
+
+<h2>7.1 Moving Average Model of Order \(q\), MA(\(q\))</h2>
+<p>Definition:</p>
+\[
+X_t = Z_t + \theta_1 Z_{t-1} + \theta_2 Z_{t-2} + \dots + \theta_q Z_{t-q}.
+\]
+Using the backshift operator, \(X_t = \theta(B) Z_t\) where \(\theta(z) = 1 + \theta_1 z + \dots + \theta_q z^q\).</p>
+
+<p><strong>ACVF of MA(\(q\)):</strong></p>
+\[
+\gamma(h) = \sigma^2 \sum_{i=0}^{q-|h|} \theta_i \theta_{i+|h|}, \quad \text{with } \theta_0 = 1.
+\]
+<p>Thus \(\gamma(h) = 0\) for \(|h| > q\). The ACF cuts off after lag \(q\).</p>
+
+<div class="explain">
+  <strong>Derivation:</strong> Using bilinearity of covariance and independence of white noise terms, the only non‑zero covariances occur when the subscripts of \(Z\) coincide.
 </div>
 
-<h3>Yule–Walker equations</h3>
-<p>\[
-\gamma(0) = \phi_1\gamma(1) + \dots + \phi_p\gamma(p) + \sigma^2
-\]</p>
-<p>\[
-\gamma(h) = \phi_1\gamma(h-1) + \dots + \phi_p\gamma(h-p),\quad h>0
-\]</p>
-<div class="explanation">
-  <strong>What this means:</strong> There is a precise mathematical relationship linking the AR coefficients, the noise variance, and the autocovariances. We can solve these equations to find the ACF pattern for any AR(p). The ACF tails off (decays gradually), which distinguishes AR from MA.
+<h2>7.2 AR(1) Model</h2>
+<p>Equation: \(X_t = \phi X_{t-1} + Z_t\), or \(\phi(B) X_t = Z_t\) with \(\phi(z) = 1 - \phi z\).</p>
+
+<p><strong>Existence of stationary solution:</strong> If \(|\phi| < 1\) (causal case), we can unroll the recursion:</p>
+\[
+X_t = Z_t + \phi Z_{t-1} + \phi^2 Z_{t-2} + \dots
+\]
+<p>This infinite sum converges because the variances sum to \(\sigma^2/(1-\phi^2) < \infty\).</p>
+
+<p><strong>ACVF and ACF for \(|\phi|<1\):</strong></p>
+\[
+\gamma(0) = \frac{\sigma^2}{1-\phi^2},\qquad
+\gamma(h) = \phi^{|h|} \gamma(0),\qquad
+\rho(h) = \phi^{|h|}.
+\]
+
+<div class="explain">
+  <strong>Causal meaning:</strong> The process is expressed entirely in terms of past innovations \(Z_t\). The ACF decays exponentially.
 </div>
 
-<h3>MA(1) invertibility \(|\theta|&lt;1\)</h3>
-<div class="explanation">
-  <strong>What this means:</strong> If \(|\theta|&lt;1\), we can rewrite the MA(1) as an infinite AR representation — i.e., we can reconstruct the white noise shocks from current and past values of the series. Non‑invertible MA processes have identical ACFs to invertible ones, so we always choose the invertible version for practical modelling.
+<p>If \(|\phi| > 1\), we can write \(X_t\) in terms of future innovations (non‑causal). Its ACF is \(\rho(h) = \phi^{-|h|}\). To avoid ambiguity, we usually choose the causal representation.</p>
+
+<h2>7.3 Causality and Invertibility</h2>
+<ul>
+  <li><strong>Causal process:</strong> \(X_t\) can be expressed solely as a function of past white noise terms (i.e., \(Z_t, Z_{t-1},\dots\)).</li>
+  <li><strong>Invertible process:</strong> The white noise \(Z_t\) can be recovered from present and past values of \(X_t\).</li>
+</ul>
+
+<p>MA(\(q\)) processes are always causal. They are invertible iff all roots of \(\theta(z)\) lie outside the unit circle.</p>
+<p>AR(1) is causal iff \(|\phi| < 1\); it is always invertible. For AR(\(p\)), causality holds iff all roots of \(\phi(z)\) lie outside the unit circle.</p>
+
+<!-- =============================================== -->
+<h1>Chapter 8 – Autoregressive Processes of Order \(p\)</h1>
+
+<h2>8.1 AR(\(p\)) Definition</h2>
+\[
+X_t - \phi_1 X_{t-1} - \phi_2 X_{t-2} - \dots - \phi_p X_{t-p} = Z_t,
+\]
+or \(\phi(B) X_t = Z_t\) with \(\phi(z) = 1 - \phi_1 z - \dots - \phi_p z^p\).
+
+<h2>8.2 Yule–Walker Equations</h2>
+<p>For a causal AR(\(p\)) process, we multiply the defining equation by \(X_{t-h}\) and take expectations. Using \(\mathbb{E}[Z_t X_{t-h}] = \sigma^2\) only when \(h=0\) (due to causality), we get:</p>
+\[
+\gamma(0) = \phi_1 \gamma(1) + \dots + \phi_p \gamma(p) + \sigma^2,
+\]
+\[
+\gamma(h) = \phi_1 \gamma(h-1) + \dots + \phi_p \gamma(h-p), \qquad h > 0.
+\]
+
+<p>These are <strong>linear recurrence equations</strong> for the autocovariances. The ACF satisfies the same recurrence with \(\rho(0)=1\).</p>
+
+<h2>8.3 Solving the Recurrence – General Solution (Optional but Important)</h2>
+<p>The recurrence \(a_n = \phi_1 a_{n-1} + \dots + \phi_p a_{n-p}\) has characteristic polynomial:</p>
+\[
+p(z) = z^p - \phi_1 z^{p-1} - \dots - \phi_p.
+\]
+But it is more convenient to work with the original \(\phi(z) = 1 - \phi_1 z - \dots - \phi_p z^p\). The roots of \(\phi(z)\), say \(r_1,\dots,r_p\) (all \(|r_i| > 1\) for causality), are the inverses of the characteristic roots.</p>
+
+<p>The general solution for the ACF is:</p>
+\[
+\rho(h) = \alpha_1 r_1^{-h} + \alpha_2 r_2^{-h} + \dots + \alpha_p r_p^{-h},
+\]
+where the constants \(\alpha_i\) are determined by the initial values \(\rho(0)=1, \rho(1), \dots, \rho(p-1)\).</p>
+
+<div class="explain">
+  <strong>Why this form?</strong> Each term \((1/r_i)^{-h} = r_i^{-h}\) is an exponential decay if \(|r_i|>1\). Complex roots produce damped sinusoids.
 </div>
 
-<!-- ============================================================ -->
-<h2>Chapter 9 – Partial Autocorrelation (PACF)</h2>
+<h3>Example: AR(2)</h3>
+<p>For \(X_t = \phi_1 X_{t-1} + \phi_2 X_{t-2} + Z_t\), the recurrence for \(\rho(h)\) is \(\rho(h) = \phi_1 \rho(h-1) + \phi_2 \rho(h-2)\). The initial values are \(\rho(0)=1\) and \(\rho(1) = \phi_1/(1-\phi_2)\) (obtained from the recurrence at \(h=1\) with \(\rho(-1)=\rho(1)\)).</p>
 
-<h3>Definition</h3>
-<p>Partial correlation between \(X_t\) and \(X_{t-h}\) after removing the linear effect of \(X_{t-1},\dots,X_{t-h+1}\).</p>
-<div class="explanation">
-  <strong>What this means:</strong> While the ordinary ACF measures the total correlation at lag \(h\) (which can be “inherited” from intermediate lags), the PACF measures the <strong>direct</strong> connection. For example, if \(X_t\) only depends on \(X_{t-1}\), the ACF at lag 2 might be non‑zero (because \(X_{t-1}\) is linked to \(X_{t-2}\)), but the PACF at lag 2 will be zero.
+<p>If the roots \(r_1, r_2\) of \(\phi(z) = 1 - \phi_1 z - \phi_2 z^2\) are real and distinct, then:</p>
+\[
+\rho(h) = \frac{r_2 - 1}{r_2 - r_1} r_1^{-h} + \frac{1 - r_1}{r_2 - r_1} r_2^{-h}.
+\]
+<p>If the roots are complex conjugates, \(\rho(h)\) oscillates while decaying.</p>
+
+<!-- =============================================== -->
+<h1>Chapter 9 – The Partial Autocorrelation Function (PACF)</h1>
+
+<h2>9.1 Motivation</h2>
+<p>For an AR(1) process, \(\rho(2) \neq 0\) even though \(X_t\) depends directly only on \(X_{t-1}\). The correlation at lag 2 is “inherited” through lag 1. The <strong>partial</strong> autocorrelation eliminates the intermediate lags’ influence.</p>
+
+<h2>9.2 Definition</h2>
+<p>The partial autocorrelation at lag \(h\), denoted \(\phi_{hh}\), is the partial correlation between \(X_t\) and \(X_{t-h}\) after removing the linear effects of \(X_{t-1}, X_{t-2}, \dots, X_{t-h+1}\).</p>
+
+<div class="explain">
+  <strong>Formally:</strong> \(\phi_{hh}\) equals the last coefficient in the linear regression of \(X_t\) on \(X_{t-1},\dots,X_{t-h}\). 
 </div>
 
-<h3>Identification table</h3>
+<h2>9.3 PACF of AR and MA Processes</h2>
+<ul>
+  <li><strong>AR(\(p\)):</strong> \(\phi_{hh} = 0\) for all \(h > p\). The PACF cuts off after lag \(p\).</li>
+  <li><strong>MA(\(q\)):</strong> The PACF decays gradually (tails off).</li>
+  <li><strong>AR(1):</strong> \(\phi_{11} = \phi\), and \(\phi_{hh}=0\) for \(h>1\).</li>
+</ul>
+
+<h2>9.4 Summary Table for Model Identification</h2>
 <table>
   <tr><th>Model</th><th>ACF</th><th>PACF</th></tr>
-  <tr><td>MA(\(q\))</td><td>cuts off after lag \(q\)</td><td>tails off gradually</td></tr>
-  <tr><td>AR(\(p\))</td><td>tails off gradually</td><td>cuts off after lag \(p\)</td></tr>
+  <tr><td>MA(\(q\))</td><td>Cuts off after lag \(q\)</td><td>Tails off</td></tr>
+  <tr><td>AR(\(p\))</td><td>Tails off</td><td>Cuts off after lag \(p\)</td></tr>
 </table>
-<div class="explanation">
-  <strong>What this means:</strong> Look at the sample ACF and PACF plots from your data. <br>
-  - If ACF drops to zero suddenly after a few lags, and PACF decays → MA. <br>
-  - If PACF drops to zero suddenly, and ACF decays → AR. <br>
-  This table is the key to choosing the right model order.
-</div>
 
-<!-- ============================================================ -->
-<h2>Chapter 10 – Fitting and Forecasting</h2>
+<p><strong>Identification strategy:</strong> Plot sample ACF and PACF. If ACF has a sharp drop after lag \(q\) and PACF decays slowly, choose MA(\(q\)). If PACF drops after lag \(p\) and ACF decays, choose AR(\(p\)).</p>
 
-<h3>Fitting in R</h3>
+<!-- =============================================== -->
+<h1>Chapter 10 – Fitting and Forecasting (Optional)</h1>
+
+<h2>10.1 Fitting Models in R</h2>
+<p>Once a stationary residual series is obtained (after detrending and deseasonalising), we fit models using maximum likelihood via <code>arima</code>.</p>
 <ul>
-  <li><code>arima(x, order=c(0,0,q))</code> fits MA(q)</li>
-  <li><code>arima(x, order=c(p,0,0))</code> fits AR(p)</li>
+  <li>MA(\(q\)): <code>arima(x, order = c(0,0,q))</code></li>
+  <li>AR(\(p\)): <code>arima(x, order = c(p,0,0))</code></li>
 </ul>
-<div class="explanation">
-  <strong>What this means:</strong> R finds the coefficients that make the model best fit the data (by maximum likelihood). You specify the \(p,d,q\) order — here \(d=0\) because we assume the data is already stationary.
+<p>The output gives estimated coefficients, their standard errors, and the innovation variance \(\hat\sigma^2\).</p>
+
+<h2>10.2 Forecasting</h2>
+
+<h3>10.2.1 Forecasting with MA(\(q\))</h3>
+<p>Assume we are at time \(t\) and know the past innovations. For a one‑step forecast:</p>
+\[
+\hat X_{t+1} = \theta_1 Z_t + \theta_2 Z_{t-1} + \dots + \theta_q Z_{t+1-q}.
+\]
+<p>For \(h>q\), the forecast is simply the process mean (zero, since we work with centred series). In practice, the innovations \(Z_t\) are not directly observed but can be estimated recursively using the invertibility of the model.</p>
+
+<h3>10.2.2 Forecasting with AR(\(p\))</h3>
+<p>The forecast is straightforward: plug in the most recent observations (or previous forecasts) into the difference equation:</p>
+\[
+\hat X_{t+1} = \phi_1 X_t + \dots + \phi_p X_{t-p+1}
+\]
+\[
+\hat X_{t+2} = \phi_1 \hat X_{t+1} + \phi_2 X_t + \dots + \phi_p X_{t-p+2},\quad \text{etc.}
+\]
+
+<div class="explain">
+  <strong>R implementation:</strong> After fitting with <code>arima</code>, use <code>predict(model, n.ahead = h)</code> to obtain forecasts and confidence intervals.
 </div>
 
-<h3>AR(1) forecast one step ahead</h3>
-<p>\[
-\hat X_{t+1} = \phi X_t
-\]</p>
-<div class="explanation">
-  <strong>What this means:</strong> Since the noise has mean zero, our best guess for tomorrow is just today’s value multiplied by \(\phi\). If \(\phi=0.8\), we expect tomorrow to be 80% of today’s deviation from the mean (plus a fresh random shock that is zero on average).
-</div>
+<!-- =============================================== -->
+<h2>Final Remarks</h2>
+<p>This guide covers all the core formulas, definitions, derivations, and intuitive explanations from the MTH6139 Time Series module. Use it alongside practice with real data in R to cement your understanding.</p>
 
-<h3>MA(1) forecast one step ahead</h3>
-<p>\[
-\hat X_{t+1} = \theta Z_t
-\]</p>
-<div class="explanation">
-  <strong>What this means:</strong> For MA models, the forecast is based on the <em>estimated past shock</em> \(Z_t\). Because the process is invertible, we can work out what shock must have occurred today from the observed data. Future shocks are unknown and set to zero.
-</div>
-
-<h3>Autoregressive forecasting (general)</h3>
-<p>\[
-\hat X_{t+h} = \phi_1 \hat X_{t+h-1} + \dots + \phi_p \hat X_{t+h-p}
-\]</p>
-<div class="explanation">
-  <strong>What this means:</strong> For AR models, we just roll the equation forward. For lags beyond the first, we plug in our own previous forecasts. This makes AR forecasts very straightforward.
-</div>
-
-<!-- End of document -->
 </body>
 </html>
